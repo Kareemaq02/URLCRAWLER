@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  mysql_db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PROD_DB_PASS}
+      MYSQL_DATABASE: ${PROD_DB_NAME}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: DockerFile.backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql_db
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: .
+      dockerfile: DockerFile.client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+
+networks:
+  app-network:
