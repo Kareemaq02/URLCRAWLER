@@ -94,6 +94,46 @@ ADMIN_PASSWORD=SuperSecure123!
 
 Note: Replace the passwords and secrets above with secure values before running.
 
+## Project Structure 📁
+
+After adding the required `.env` files, your project directory should look like this:
+```
+project-root/
+│
+├── .env
+├── .dockerignore
+├── .gitignore
+├── docker-compose.yaml
+├── DockerFile.backend
+├── DockerFile.client
+├── go.mod
+├── go.sum
+├── project-structure.txt
+├── README.md
+├── wait-for-it.sh
+│
+├── client/
+│ ├── .env.development
+│ ├── .env.production
+│ ├── node_modules/
+│ └── src/
+│
+├── cmd/
+│ ├── seed/
+│ └── server/
+│
+├── internal/
+│ ├── api/
+│ ├── auth/
+│ ├── config/
+│ ├── crawler/
+│ ├── db/
+│ ├── handlers/
+│ ├── middleware/
+│ └── models/
+│
+└── migrations/
+```
 ## Running Locally (Development Mode) 🧑‍💻
 
 1. Clone the repository and navigate to the frontend:
