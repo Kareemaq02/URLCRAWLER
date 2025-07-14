@@ -1,0 +1,24 @@
+FROM golang:1.24
+
+WORKDIR /app
+
+# Copy go modules and download them
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Install Goose
+RUN go install github.com/pressly/goose/v3/cmd/goose@latest
+ENV PATH="/go/bin:${PATH}"
+
+# Copy source files
+COPY . .
+
+# Copy wait-for-it and make it executable
+COPY wait-for-it.sh .
+RUN chmod +x wait-for-it.sh
+
+# Build the Go app
+RUN go build -o main ./cmd/server
+
+# Run wait-for-it before starting
+CMD ["./wait-for-it.sh", "mysql_db:3306", "--timeout=30", "--strict", "--", "./main"]
